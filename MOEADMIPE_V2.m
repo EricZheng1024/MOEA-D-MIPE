@@ -1,6 +1,7 @@
 classdef MOEADMIPE < ALGORITHM
 % <multi/many> <real>
 % MOEA/D with model-based ideal point estimation
+% New features: Clip; Stable normalization
 % delta --- 1 --- The probability of selecting candidates from neighbors
 % type --- 2 --- The type of aggregation function
 % Tm --- 0.1 ---  The size of neighborhood for mating
@@ -50,13 +51,14 @@ classdef MOEADMIPE < ALGORITHM
             p_train_raw = (Population.decs)';
             t_train_raw = (Population.objs)';
             z_min = min(Population.objs, [], 1);
+            z_max = max(Population.objs, [], 1);
             z_e = z_min;
 
 
             %% Optimization
             while Algorithm.NotTerminated(Population)
                 % For each solution
-                z_max = max(Population.objs, [], 1);
+                z_max = 0.95*z_max + (1-0.95)*max(Population.objs, [], 1);
                 for i = 1 : Problem.N
                     % Choose the parents
                     if rand < delta
