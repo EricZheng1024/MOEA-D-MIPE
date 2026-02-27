@@ -1,4 +1,4 @@
-classdef MOEADMIPE < ALGORITHM
+classdef MOEADMIPE_V2 < ALGORITHM
 % <multi/many> <real>
 % MOEA/D with model-based ideal point estimation
 % New features: Clip; Stable normalization
